@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useQuery } from "react-query";
 import {
   CartesianGrid,
@@ -10,27 +9,20 @@ import {
 } from "recharts";
 import { queryOptions } from "../../api/rest/client";
 import useAPI from "../../api/rest/useAPI";
-import { useErrorContext } from "../../context/ErrorContext";
 import { ChartProps } from "../../interfaces/props";
 import Spinner from "../Spinner";
 
 const Chart = (props: ChartProps) => {
   const { getExchangeRates } = useAPI();
-  const { showError } = useErrorContext();
 
-  const {
-    data: chartData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery("chartData", () => getExchangeRates(props.assetID), {
-    ...queryOptions,
-    refetchOnMount: true,
-  });
-
-  useEffect(() => {
-    isError && showError(String(error));
-  }, [isError, error]);
+  const { data: chartData, isLoading } = useQuery(
+    "chartData",
+    () => getExchangeRates(props.assetID),
+    {
+      ...queryOptions,
+      refetchOnMount: true,
+    }
+  );
 
   return (
     <>

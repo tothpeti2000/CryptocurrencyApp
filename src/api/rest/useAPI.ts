@@ -6,22 +6,22 @@ import { subtractWeekFromCurrentDate } from "./utils";
 const useAPI = () => {
   const { showError } = useErrorContext();
 
-  const getAllAssets = () => {
+  const getAllAssets = async () => {
     console.log("Fetching assets");
 
     try {
-      return client.get<Asset[]>("v1/assets");
+      return await client.get<Asset[]>("v1/assets");
     } catch (err) {
       showError((err as ErrorMessage).message);
     }
   };
 
-  const getExchangeRates = (assetID: string) => {
+  const getExchangeRates = async (assetID: string) => {
     console.log(`Fetching ${assetID}/USD exchange rates`);
     const intervalStart = subtractWeekFromCurrentDate();
 
     try {
-      return client.get<ExchangeRate[]>(
+      return await client.get<ExchangeRate[]>(
         `v1/exchangerate/${assetID}/USD/history?period_id=6HRS&time_start=${intervalStart}`
       );
     } catch (err) {

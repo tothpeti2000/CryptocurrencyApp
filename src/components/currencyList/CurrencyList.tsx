@@ -9,8 +9,10 @@ const CurrencyList = (props: UserDisplayProps) => {
   const data = useWebsocket(assetIDs);
 
   const shouldUpdate = (assetID: string) => {
+    console.log(data, data.symbol_id);
     return data.symbol_id.includes(`${assetID}_USD`);
   };
+  console.log("CurrencyList");
 
   return (
     <Box {...styles.boxWithShadow}>

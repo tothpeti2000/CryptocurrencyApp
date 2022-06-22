@@ -19,9 +19,7 @@ const Dashboard = () => {
       <Header user={user} />
 
       <Stack direction={"row"} spacing={2}>
-        <Box width={"25%"}>
-          <CurrencyList user={user} />
-        </Box>
+        <Box width={"25%"}>{/*<CurrencyList user={user} />*/}</Box>
 
         <Box width={"75%"}>
           <ToggleProvider>
