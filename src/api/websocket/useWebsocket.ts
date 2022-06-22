@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useErrorContext } from "../../context/ErrorContext";
 import { useUserContext } from "../../context/UserContext";
-import { WsData } from "../../interfaces/currency";
+import { ErrorMessage, WsData } from "../../interfaces/currency";
 import { createApiCall, wsURL } from "./client";
 
 const useWebsocket = (assetIDs: string[]) => {
   const { user } = useUserContext();
-  const [data, setData] = useState<WsData>({
+  const [data, setData] = useState<WsData | ErrorMessage>({
     price_high: 0,
     price_low: 0,
     symbol_id: "",
@@ -26,6 +26,11 @@ const useWebsocket = (assetIDs: string[]) => {
 
       ws.onmessage = (e) => {
         const data = JSON.parse(e.data);
+
+        if (data.type === "error") {
+          showError(`Websocket error: ${data.message}`);
+        }
+
         setData(data);
       };
 
